@@ -1,295 +1,171 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vente en ligne UCAO-UCC - Cotonou</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 0; }
-    header { background: #007bff; color: white; text-align: center; padding: 20px 10px; }
-    header button { background: white; color: #007bff; border: none; padding: 10px 12px; margin: 5px 2px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-    .page { padding: 15px; max-width: 600px; margin: auto; }
-    input, textarea { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-    button { cursor: pointer; }
-    .page button { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; margin-top: 8px; }
-    .article { background: white; padding: 15px; margin: 12px 0; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .article img { width: 100%; border-radius: 8px; margin: 8px 0; }
-    .prix { font-size: 20px; font-weight: bold; color: #28a745; }
-    .btn-commander { background: #25D366 !important; }
-    .btn-recu { background: #28a745 !important; }
-    .btn-deja { background: #6c757d !important; }
-    .total-box { background: #ffc107; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 12px; }
-    footer { text-align: center; padding: 20px; background: white; margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCAO Love Market ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(160deg,#ff9a9e,#fad0c4,#a18cd1,#fbc2eb);background-size:400% 400%;animation:bg 12s ease infinite;min-height:100vh;overflow-x:hidden}
+@keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.heart{position:fixed;top:-20px;animation:fall linear infinite;z-index:0;opacity:.7}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+header{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.menu-btn{font-size:26px;background:#ff2e63;color:#fff;border:none;width:44px;height:44px;border-radius:12px;cursor:pointer}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#ff2e63}
+.logo span{color:#6a11cb}
+.sidebar{position:fixed;left:-280px;top:0;width:260px;height:100%;background:#fff;z-index:50;transition:.35s;padding:20px;box-shadow:10px 0 30px rgba(0,0,0,.2)}
+.sidebar.open{left:0}
+.sidebar h3{font-family:'Great Vibes',cursive;font-size:32px;color:#ff2e63;margin-bottom:5px}
+.sidebar p{font-size:13px;color:#666;line-height:1.5;margin-bottom:15px}
+.sidebar button,.sidebar a{display:block;width:100%;text-align:left;padding:12px;border:none;background:#fff2f5;border-radius:12px;margin-bottom:8px;font-family:'Poppins';font-weight:600;cursor:pointer;color:#333;text-decoration:none}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:40}
+.overlay.show{display:block}
+.welcome{position:fixed;inset:0;background:linear-gradient(180deg,rgba(255,46,99,.95),rgba(106,17,203,.95));z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff}
+.welcome-box{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);padding:28px 20px;border-radius:24px;max-width:420px}
+.welcome-box h1{font-family:'Great Vibes',cursive;font-size:44px;line-height:1.1}
+.welcome-box p{margin:12px 0;font-size:14.5px;line-height:1.6}
+.welcome-box input{width:100%;padding:13px;border-radius:12px;border:none;margin:8px 0;font-family:'Poppins'}
+.welcome-box button{width:100%;padding:14px;border:none;border-radius:12px;background:#fff;color:#ff2e63;font-weight:800;font-size:16px;cursor:pointer;margin-top:8px}
+.container{max-width:520px;margin:0 auto;padding:16px;position:relative;z-index:1}
+.objectif{background:rgba(255,255,255,.95);padding:18px;border-radius:20px;margin-bottom:16px;box-shadow:0 8px 25px rgba(0,0,0,.1)}
+.objectif h2{font-family:'Playfair Display',serif;color:#ff2e63;font-size:20px}
+.objectif p{font-size:13.5px;line-height:1.6;color:#444;margin-top:8px}
+.add-box{background:#fff;padding:16px;border-radius:20px;margin-bottom:16px}
+.add-box h3{color:#6a11cb}
+.add-box input,.add-box select{width:100%;padding:12px;border:1px solid #eee;border-radius:12px;margin-top:8px;font-family:'Poppins'}
+.add-box button{width:100%;padding:13px;background:#ff2e63;color:#fff;border:none;border-radius:12px;font-weight:800;margin-top:10px;cursor:pointer}
+.card{background:#fff;border-radius:22px;overflow:hidden;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.card img{width:100%;height:220px;object-fit:cover}
+.card-body{padding:14px}
+.badge{display:inline-block;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800}
+.dispo{background:#d4ffdd;color:#0a7a2e}.vendu{background:#ffe0e0;color:#c00}
+.card-body h3{font-family:'Playfair Display',serif;font-size:20px;margin:8px 0 4px}
+.price{color:#ff2e63;font-weight:800;font-size:18px}
+.card-body p{font-size:13px;color:#666}
+.actions{display:flex;gap:8px;margin-top:12px}
+.actions button{flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+.btn-wa{background:#25D366;color:#fff}.btn-del{background:#ffeef0;color:#ff2e63}.btn-toggle{background:#f0eaff;color:#6a11cb}
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>🛒 Vente en ligne</h1>
-    <p style="font-size:18px; margin:0;">à l'université UCAO-UCC - Cotonou</p>
-    <p>Pour les étudiants de UCAO-UCC - Cotonou</p>
-    <button onclick="showPage('accueil')">Accueil</button>
-    <button onclick="showPage('inscription')">Devenir Vendeur</button>
-    <button onclick="showPage('publier')">Publier Article</button>
-    <button onclick="showPage('commandes')">Mes Commandes</button>
-  </header>
+<div class="welcome" id="welcome">
+  <div class="welcome-box">
+    <div style="font-size:40px">❤️</div>
+    <h1 id="welcomeTitle">Bienvenue mon amour...</h1>
+    <p id="welcomeText">Bienvenue dans ton petit marché du cœur, là où chaque article a une histoire et chaque vendeur est de la famille UCAO.</p>
+    <p style="font-size:12px;opacity:.9">✨ Notre objectif : permettre à tous les étudiants de l'UCAO de vendre et d'acheter facilement entre eux, sans stress, en toute confiance et avec amour. Ici, on s'entraide, on se soutient, on grandit ensemble.</p>
+    <input id="nameInput" placeholder="Ton prénom (ex: Eyitayo)">
+    <input id="waInput" placeholder="Ton WhatsApp (ex: 229 90 00 00 00)">
+    <button onclick="entrer()">Entrer dans le marché 💖</button>
+  </div>
+</div>
 
-  <div id="page-accueil" class="page">
-    <h2>Articles en vente</h2>
-    <input type="text" id="recherche" placeholder="Rechercher..." oninput="afficherArticles()">
-    <div id="liste-articles"></div>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
+  <h3>Love Market ❤️</h3>
+  <p><b>Notre objectif :</b> Créer une famille UCAO où chaque étudiant peut vendre ses articles, gagner un peu d'argent et aider les autres à trouver ce qu'ils cherchent, avec respect et amour.</p>
+  <button onclick="toggleMenu()">🏠 Accueil</button>
+  <button onclick="showAdd();toggleMenu()">➕ Publier un article</button>
+  <button onclick="alert('Merci de faire partie de la famille UCAO ❤️')">💌 Nous contacter</button>
+  <button onclick="deconnexion()">🚪 Se déconnecter</button>
+  <p style="font-size:11px;text-align:center;margin-top:20px">UCAO-UCC • Cotonou • Fait avec ❤️</p>
+</div>
+
+<header>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <div class="logo">UCAO <span>Love Market</span> ❤️</div>
+  <div style="margin-left:auto;font-size:13px;font-weight:700" id="userHello">Bonjour 👋</div>
+</header>
+
+<div class="container">
+  <div class="objectif">
+    <h2>💖 Bienvenue dans la famille UCAO</h2>
+    <p>Ici, les étudiants de l'UCAO-UCC vendent et achètent entre eux. Vêtements, sacs, téléphones, livres... Tout est entre nous, avec confiance. Vendeur ou acheteur, tu es chez toi.</p>
   </div>
 
-  <div id="page-inscription" class="page" style="display:none">
-    <h2>Devenir Vendeur</h2>
-    <input type="text" id="nom-vendeur" placeholder="Ton nom complet">
-    <input type="text" id="tel-vendeur" placeholder="Ton numéro WhatsApp ex: 0168649929">
-    <input type="text" id="gmail-vendeur" placeholder="Ton adresse Gmail">
-    <input type="text" id="momo-vendeur" placeholder="Ton numéro compte MoMo">
-    <input type="password" id="code-vendeur" placeholder="Crée un code secret (4 chiffres)">
-    <button onclick="inscrireVendeur()">Créer mon espace</button>
-    <p id="message-inscription"></p>
-    <hr>
-    <h3>Déjà vendeur ? Connecte-toi</h3>
-    <input type="text" id="tel-login" placeholder="Ton numéro de téléphone">
-    <input type="password" id="code-login" placeholder="Ton code secret">
-    <button onclick="connecterVendeur()">Se connecter</button>
-    <p id="message-login"></p>
+  <div class="add-box" id="addBox">
+    <h3>➕ Publier un article</h3>
+    <input id="pTitle" placeholder="Nom de l'article (ex: Sac à main)">
+    <input id="pPrice" placeholder="Prix (ex: 15000)">
+    <input id="pImg" placeholder="Lien photo (ou laisse vide)">
+    <input id="pDesc" placeholder="Description courte">
+    <select id="pDispo"><option value="Disponible">✅ Disponible</option><option value="Vendu">❌ Vendu / Indisponible</option></select>
+    <button onclick="ajouter()">Publier mon article 💖</button>
   </div>
 
-  <div id="page-publier" class="page" style="display:none">
-    <h2>Publier un article</h2>
-    <p id="vendeur-connecte">Tu dois te connecter d'abord.</p>
-    <input type="text" id="nom-article" placeholder="Nom de l'article ex: Parfum">
-    <input type="number" id="prix-article" placeholder="Prix en FCFA ex: 2500">
-    <p>Photo de l'article :</p>
-    <input type="file" id="photo-article" accept="image/*" onchange="previewPhoto(event)">
-    <img id="preview-img" style="display:none; width:100%; border-radius:8px; margin-top:8px;">
-    <textarea id="desc-article" placeholder="Description..."></textarea>
-    <button onclick="publierArticle()">Publier</button>
-    <p id="message-publier"></p>
-  </div>
-
-  <div id="page-commandes" class="page" style="display:none">
-    <h2>Mes Commandes</h2>
-    <div id="total-commission" class="total-box"></div>
-    <div id="liste-commandes"></div>
-  </div>
-
-  <footer>
-    <hr>
-    <h3>Créateur du site</h3>
-    <p><b>OLATEDJOU Leadi Eyitayo Adechinan</b></p>
-    <p>MTN : 0152174341 | Moov / WhatsApp : 0168649929</p>
-    <p>Commission du site : 5% sur chaque vente.</p>
-  </footer>
+  <div id="liste"></div>
+  <p style="text-align:center;font-size:12px;color:#fff;margin:20px 0">Fait avec ❤️ pour les étudiants UCAO</p>
+</div>
 
 <script>
-let vendeurs = JSON.parse(localStorage.getItem("vendeurs") || "[]");
-let articles = JSON.parse(localStorage.getItem("articles") || "[]");
-let commandes = JSON.parse(localStorage.getItem("commandes") || "[]");
-let vendeurActuel = JSON.parse(localStorage.getItem("vendeurActuel") || "null");
-let photoData = "";
-let NUM_LEADI = "0152174341";
-function sauvegarder() {
-  localStorage.setItem("vendeurs", JSON.stringify(vendeurs));
-  localStorage.setItem("articles", JSON.stringify(articles));
-  localStorage.setItem("commandes", JSON.stringify(commandes));
-  localStorage.setItem("vendeurActuel", JSON.stringify(vendeurActuel));
+function creerCoeurs(){for(let i=0;i<15;i++){let s=document.createElement('div');s.className='heart';s.innerHTML='❤️';s.style.left=Math.random()*100+'vw';s.style.fontSize=(12+Math.random()*20)+'px';s.style.animationDuration=(4+Math.random()*5)+'s';document.body.appendChild(s)}}
+creerCoeurs();
+let user=JSON.parse(localStorage.getItem('ucao_user')||'null');
+let produits=JSON.parse(localStorage.getItem('ucao_products')||'[]');
+if(produits.length===0){
+ produits=[
+  {t:'Sac à main élégant',p:'15000',img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',d:'Sac très chic, parfait pour les cours et les sorties. État neuf.',dispo:'Disponible',vendeur:'Eyitayo'},
+  {t:'Écouteurs Bluetooth',p:'8000',img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',d:'Son super clair, batterie longue durée.',dispo:'Disponible',vendeur:'Eyitayo'},
+  {t:'Montre stylée',p:'12000',img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600',d:'Montre élégante, idéale pour briller à l\'UCAO.',dispo:'Disponible',vendeur:'Eyitayo'}
+ ];
+ localStorage.setItem('ucao_products',JSON.stringify(produits));
 }
-function showPage(nom) {
-  document.getElementById("page-accueil").style.display = "none";
-  document.getElementById("page-inscription").style.display = "none";
-  document.getElementById("page-publier").style.display = "none";
-  document.getElementById("page-commandes").style.display = "none";
-  document.getElementById("page-" + nom).style.display = "block";
-  if (nom === "accueil") afficherArticles();
-  if (nom === "commandes") afficherCommandes();
-  if (nom === "publier") majPagePublier();
+if(user){
+ document.getElementById('welcomeTitle').innerText='Bon retour mon amour... 💖';
+ document.getElementById('welcomeText').innerText='Bon retour '+user.nom+' ! Tu nous as manqué. Ton marché t\'attendait, tes articles sont toujours là. On est heureux de te revoir dans la famille UCAO.';
+ document.getElementById('nameInput').value=user.nom;
+ document.getElementById('waInput').value=user.wa||'';
+ document.getElementById('userHello').innerText='Salut '+user.nom+' ❤️';
+} else {
+ document.getElementById('welcomeTitle').innerText='Bienvenue mon amour...';
+ document.getElementById('welcomeText').innerText='Bienvenue dans ton petit marché du cœur, là où chaque article a une histoire et chaque vendeur est de la famille UCAO. Entre ton prénom pour commencer ton aventure avec nous.';
 }
-function formatWhatsApp(tel) {
-  let t = (tel || "").replace(/[^0-9]/g, "");
-  if (t.startsWith("229")) return t;
-  if (t.startsWith("0")) return "229" + t.substring(1);
-  return "229" + t;
+function entrer(){
+ let nom=document.getElementById('nameInput').value.trim();
+ let wa=document.getElementById('waInput').value.trim();
+ if(!nom){alert('Mets ton prénom mon amour ❤️');return}
+ let isRetour=!!user;
+ user={nom:nom,wa:wa};
+ localStorage.setItem('ucao_user',JSON.stringify(user));
+ document.getElementById('welcome').style.display='none';
+ document.getElementById('userHello').innerText='Salut '+nom+' ❤️';
+ if(isRetour) alert('Bon retour '+nom+' 💖 On est content de te revoir !');
+ else alert('Bienvenue dans la famille '+nom+' 🎉❤️');
+ afficher();
 }
-function previewPhoto(event) {
-  let fichier = event.target.files[0];
-  if (!fichier) return;
-  let lecteur = new FileReader();
-  lecteur.onload = function(e) {
-    photoData = e.target.result;
-    let img = document.getElementById("preview-img");
-    img.src = photoData;
-    img.style.display = "block";
-  };
-  lecteur.readAsDataURL(fichier);
+function deconnexion(){
+ if(confirm('Tu veux te déconnecter ?')){localStorage.removeItem('ucao_user');location.reload()}
 }
-function inscrireVendeur() {
-  let nom = document.getElementById("nom-vendeur").value;
-  let tel = document.getElementById("tel-vendeur").value;
-  let gmail = document.getElementById("gmail-vendeur").value;
-  let momo = document.getElementById("momo-vendeur").value;
-  let code = document.getElementById("code-vendeur").value;
-  if (!nom || !tel || !gmail || !momo || !code) {
-    document.getElementById("message-inscription").innerText = "Remplis tout stp !";
-    return;
-  }
-  let nouveau = { nom: nom, tel: tel, gmail: gmail, momo: momo, code: code };
-  vendeurs.push(nouveau);
-  vendeurActuel = nouveau;
-  sauvegarder();
-  document.getElementById("message-inscription").innerText = "Bienvenue " + nom + " !";
-  showPage("publier");
+function toggleMenu(){
+ document.getElementById('sidebar').classList.toggle('open');
+ document.getElementById('overlay').classList.toggle('show');
 }
-function connecterVendeur() {
-  let tel = document.getElementById("tel-login").value;
-  let code = document.getElementById("code-login").value;
-  for (let v of vendeurs) {
-    if (v.tel === tel && v.code === code) {
-      vendeurActuel = v;
-      sauvegarder();
-      showPage("publier");
-      return;
-    }
-  }
-  document.getElementById("message-login").innerText = "Numero ou code faux.";
+function showAdd(){document.getElementById('addBox').scrollIntoView({behavior:'smooth'})}
+function afficher(){
+ let html='';
+ produits.forEach((pr,i)=>{
+  let img=pr.img||'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600';
+  html+=`<div class="card"><img src="${img}"><div class="card-body"><span class="badge ${pr.dispo==='Disponible'?'dispo':'vendu'}">${pr.dispo==='Disponible'?'✅ Disponible':'❌ Vendu / Indisponible'}</span><h3>${pr.t}</h3><div class="price">${pr.p} FCFA</div><p>${pr.d}</p><p style="font-size:12px;margin-top:6px">👤 Vendeur : ${pr.vendeur}</p><div class="actions"><button class="btn-wa" onclick="window.open('https://wa.me/22990000000?text=Bonjour, je veux acheter ${encodeURIComponent(pr.t)}')">WhatsApp 💬</button><button class="btn-toggle" onclick="toggleDispo(${i})">Changer dispo</button><button class="btn-del" onclick="supprimer(${i})">🗑 Supprimer</button></div></div></div>`;
+ });
+ document.getElementById('liste').innerHTML=html||'<p style="text-align:center;background:#fff;padding:20px;border-radius:16px">Aucun article pour le moment. Sois le premier à publier ❤️</p>';
 }
-function majPagePublier() {
-  if (vendeurActuel) {
-    document.getElementById("vendeur-connecte").innerText = "Connecte : " + vendeurActuel.nom + " | MoMo : " + vendeurActuel.momo;
-  }
+function ajouter(){
+ let t=document.getElementById('pTitle').value.trim();
+ let p=document.getElementById('pPrice').value.trim();
+ if(!t||!p){alert('Mets le nom et le prix ❤️');return}
+ produits.unshift({t:t,p:p,img:document.getElementById('pImg').value.trim(),d:document.getElementById('pDesc').value.trim()||'Article de la famille UCAO ❤️',dispo:document.getElementById('pDispo').value,vendeur:user?user.nom:'Vendeur UCAO'});
+ localStorage.setItem('ucao_products',JSON.stringify(produits));
+ afficher(); alert('Article publié avec amour ❤️');
+ document.getElementById('pTitle').value='';document.getElementById('pPrice').value='';
 }
-function publierArticle() {
-  if (!vendeurActuel) { document.getElementById("message-publier").innerText = "Connecte-toi d'abord."; return; }
-  let nom = document.getElementById("nom-article").value;
-  let prix = document.getElementById("prix-article").value;
-  let photo = photoData;
-  let desc = document.getElementById("desc-article").value;
-  if (!nom || !prix) { document.getElementById("message-publier").innerText = "Mets nom et prix."; return; }
-  let commission = Math.round(prix * 0.05);
-  let gainVendeur = prix - commission;
-  articles.push({ nom: nom, prix: Number(prix), photo: photo, desc: desc, vendeurNom: vendeurActuel.nom, vendeurTel: vendeurActuel.tel, vendeurMomo: vendeurActuel.momo, commission: commission, gainVendeur: gainVendeur });
-  sauvegarder();
-  photoData = "";
-  document.getElementById("preview-img").style.display = "none";
-  document.getElementById("photo-article").value = "";
-  document.getElementById("nom-article").value = "";
-  document.getElementById("prix-article").value = "";
-  document.getElementById("desc-article").value = "";
-  afficherArticles();
-  showPage("accueil");
-}
-function afficherArticles() {
-  let zone = document.getElementById("liste-articles");
-  let recherche = document.getElementById("recherche").value.toLowerCase();
-  zone.innerHTML = "";
-  if (articles.length === 0) { zone.innerHTML = "<p>Aucun article. Sois le premier !</p>"; return; }
-  for (let i = 0; i < articles.length; i++) {
-    let a = articles[i];
-    if (recherche && !a.nom.toLowerCase().includes(recherche)) continue;
-    let photoHtml = a.photo ? '<img src="' + a.photo + '">' : "";
-    zone.innerHTML += '<div class="article"><h3>' + a.nom + '</h3><p>Par : ' + a.vendeurNom + ' | Tel : ' + a.vendeurTel + '</p>' + photoHtml + '<p>' + (a.desc || "") + '</p><p class="prix">' + a.prix + ' FCFA</p><button class="btn-commander" onclick="commander(' + i + ')">Commander sur WhatsApp</button></div>';
-  }
-}
-function commander(index) {
-  let a = articles[index];
-  let nomPrenom = prompt("Nom et Prénom ? (Obligatoire)");
-  if (!nomPrenom || !nomPrenom.trim()) { alert("Demande annulée."); return; }
-  let classe = prompt("Ta Classe ? Ex : L1, L2, L3 (Obligatoire)");
-  if (!classe || !classe.trim()) { alert("Demande annulée."); return; }
-  let filiere = prompt("Ta Filière ? Ex : Droit, Gestion, Info (Obligatoire)");
-  if (!filiere || !filiere.trim()) { alert("Demande annulée."); return; }
-  let telClient = prompt("Ton Numéro de téléphone ? (Obligatoire)");
-  if (!telClient || !telClient.trim()) { alert("Demande annulée."); return; }
-  let paiement = prompt("Mode de paiement ? Tape : MoMo ou Cash (Obligatoire)");
-  if (!paiement || !paiement.trim()) { alert("Commande annulée. Tu dois choisir un mode de paiement."); return; }
-  paiement = paiement.toLowerCase().trim();
-  if (paiement.includes("momo") || paiement.includes("mo mo")) {
-    paiement = "MoMo";
-  } else if (paiement.includes("cash") || paiement.includes("espece") || paiement.includes("espèce") || paiement.includes("liquide")) {
-    paiement = "Cash";
-  } else {
-    alert("Commande annulée. Tu dois taper MoMo ou Cash.");
-    return;
-  }
-  let heureLivraison = prompt("Heure de livraison ? Ex : 12h30, 15h00 (Obligatoire)");
-  if (!heureLivraison || !heureLivraison.trim()) { alert("Commande annulée. Tu dois donner l'heure de livraison."); return; }
-  let etage = prompt("Dans quel étage / Bâtiment ? Ex : Bâtiment A - 1er étage (Obligatoire)");
-  if (!etage || !etage.trim()) { alert("Commande annulée. Tu dois donner l'étage."); return; }
-
-  // CALCUL AUTOMATIQUE DE LA COMMISSION
-  let commission = Math.round(a.prix * 0.05);
-  let gainVendeur = a.prix - commission;
-
-  commandes.push({ article: a.nom, prix: a.prix, client: nomPrenom, classe: classe, filiere: filiere, telClient: telClient, paiement: paiement, heureLivraison: heureLivraison, etage: etage, vendeur: a.vendeurNom, vendeurTel: a.vendeurTel, commission: commission, gainVendeur: gainVendeur, date: new Date().toLocaleString(), statut: "En attente" });
-  sauvegarder();
-
-  let message = "Bonjour " + a.vendeurNom + ", je veux commander sur Vente en ligne UCAO-UCC :\n\n" + "🛒 Article : " + a.nom + "\n" + "💰 Prix : " + a.prix + " FCFA\n\n" + "👤 Nom : " + nomPrenom + "\n" + "🎓 Classe : " + classe + "\n" + "📚 Filière : " + filiere + "\n" + "📞 Mon numéro : " + telClient + "\n" + "💳 Paiement : " + paiement + "\n" + "🕐 Heure de livraison : " + heureLivraison + "\n" + "🏢 Étage / Bâtiment : " + etage + "\n\n" + "ℹ️ Commission site (5%) : " + commission + " FCFA à envoyer à Leadi au " + NUM_LEADI + " après livraison.";
-  let numeroVendeur = formatWhatsApp(a.vendeurTel);
-  let lien = "https://wa.me/" + numeroVendeur + "?text=" + encodeURIComponent(message);
-  window.open(lien, "_blank");
-  alert("On t'envoie sur WhatsApp du vendeur. Appuie juste sur Envoyer !");
-  afficherCommandes();
-  showPage("commandes");
-}
-function afficherCommandes() {
-  let zone = document.getElementById("liste-commandes");
-  let totalBox = document.getElementById("total-commission");
-  let total = 0;
-  let totalRecu = 0;
-  for (let c of commandes) { total += (c.commission || 0); if (c.statut === "Reçu") totalRecu += (c.commission || 0); }
-  totalBox.innerHTML = "💰 Total commissions du site : " + total + " FCFA<br>✅ Déjà reçues : " + totalRecu + " FCFA<br>⏳ En attente : " + (total - totalRecu) + " FCFA";
-  if (commandes.length === 0) { zone.innerHTML = "<p>Aucune commande.</p>"; return; }
-  zone.innerHTML = "";
-  for (let i = 0; i < commandes.length; i++) {
-    let c = commandes[i];
-    let bouton = "";
-    if (c.statut === "Reçu") {
-      bouton = '<button class="btn-deja">✅ Colis déjà reçu</button>';
-    } else {
-      bouton = '<button class="btn-recu" onclick="colisRecu(' + i + ')">📦 J\'ai reçu le colis</button>';
-    }
-    zone.innerHTML += '<div class="article"><h3>' + c.article + ' - ' + c.prix + ' FCFA</h3><p>Client : ' + c.client + '</p><p>Classe : ' + (c.classe || "") + ' | Filière : ' + (c.filiere || "") + '</p><p>Tel : ' + c.telClient + '</p><p>Paiement : <b>' + (c.paiement || "") + '</b></p><p>🕐 Livraison : ' + (c.heureLivraison || "") + '</p><p>🏢 Étage : ' + (c.etage || "") + '</p><p>Vendeur : ' + c.vendeur + '</p><p>Commission (5%) : <b>' + c.commission + ' FCFA</b> | Gain vendeur : ' + c.gainVendeur + ' FCFA</p><p>Statut : <b>' + (c.statut || "") + '</b></p><p>' + (c.date || "") + '</p>' + bouton + '</div>';
-  }
-}
-function colisRecu(index) {
-  let c = commandes[index];
-  if (!confirm("Tu confirmes que tu as bien reçu : " + c.article + " ?")) return;
-  c.statut = "Reçu";
-  sauvegarder();
-  afficherCommandes();
-
-  // MESSAGE AUTOMATIQUE 1 : AU VENDEUR - COLIS REÇU + COMMISSION EN MEME TEMPS
-  let msgVendeur = "✅ COLIS REÇU - Vente UCAO-UCC\n\n" +
-    "Bonjour " + c.vendeur + ", le client " + c.client + " (" + c.classe + " " + c.filiere + ") confirme qu'il a bien reçu son colis :\n\n" +
-    "🛒 " + c.article + " - " + c.prix + " FCFA\n" +
-    "🕐 Livraison : " + c.heureLivraison + " - " + c.etage + "\n\n" +
-    "💰 COMMISSION À PAYER MAINTENANT :\n" +
-    "Tu dois envoyer " + c.commission + " FCFA (5%) à Leadi au " + NUM_LEADI + " (MoMo).\n" +
-    "Ton gain : " + c.gainVendeur + " FCFA.\n\n" +
-    "Merci de payer tout de suite 🙏";
-
-  let lienVendeur = "https://wa.me/" + formatWhatsApp(c.vendeurTel) + "?text=" + encodeURIComponent(msgVendeur);
-  window.open(lienVendeur, "_blank");
-
-  // MESSAGE AUTOMATIQUE 2 : À TOI (LEADI) - EN MEME TEMPS, SANS ATTENDRE
-  setTimeout(function() {
-    let msgLeadi = "💰 NOUVELLE COMMISSION À RÉCUPÉRER\n\n" +
-      "Vendeur : " + c.vendeur + " (" + c.vendeurTel + ")\n" +
-      "Client : " + c.client + "\n" +
-      "Article : " + c.article + " - " + c.prix + " FCFA\n" +
-      "Commission (5%) : " + c.commission + " FCFA\n" +
-      "Statut : Colis reçu ✅\n\n" +
-      "Le vendeur doit te payer maintenant.";
-    let lienLeadi = "https://wa.me/" + formatWhatsApp(NUM_LEADI) + "?text=" + encodeURIComponent(msgLeadi);
-    window.open(lienLeadi, "_blank");
-  }, 800);
-
-  alert("Merci ! 2 messages automatiques envoyés :\n1. Au vendeur : Colis reçu + Commission à payer\n2. À toi (Leadi) : Nouvelle commission de " + c.commission + " FCFA");
-}
-afficherArticles();
-majPagePublier();
+function supprimer(i){if(confirm('Supprimer cet article ?')){produits.splice(i,1);localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
+function toggleDispo(i){produits[i].dispo=produits[i].dispo==='Disponible'?'Vendu':'Disponible';localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
+if(user) document.getElementById('welcome').style.display='none';
+afficher();
 </script>
 </body>
-</html>￼Enter
+</html>
