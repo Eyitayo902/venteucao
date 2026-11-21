@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vente en ligne UCAO-UCC - Cotonou</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 0; }
+    header { background: #007bff; color: white; text-align: center; padding: 20px 10px; }
+    header button { background: white; color: #007bff; border: none; padding: 10px 12px; margin: 5px 2px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    .page { padding: 15px; max-width: 600px; margin: auto; }
+    input, textarea { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+    button { cursor: pointer; }
+    .page button { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; margin-top: 8px; }
+    .article { background: white; padding: 15px; margin: 12px 0; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .article img { width: 100%; border-radius: 8px; margin: 8px 0; }
+    .prix { font-size: 20px; font-weight: bold; color: #28a745; }
+    .btn-commander { background: #25D366 !important; }
+    .btn-recu { background: #28a745 !important; }
+    .btn-deja { background: #6c757d !important; }
+    .total-box { background: #ffc107; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 12px; }
+    footer { text-align: center; padding: 20px; background: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🛒 Vente en ligne</h1>
+    <p style="font-size:18px; margin:0;">à l'université UCAO-UCC - Cotonou</p>
+    <p>Pour les étudiants de UCAO-UCC - Cotonou</p>
+    <button onclick="showPage('accueil')">Accueil</button>
+    <button onclick="showPage('inscription')">Devenir Vendeur</button>
+    <button onclick="showPage('publier')">Publier Article</button>
+    <button onclick="showPage('commandes')">Mes Commandes</button>
+  </header>
+
+  <div id="page-accueil" class="page">
+    <h2>Articles en vente</h2>
+    <input type="text" id="recherche" placeholder="Rechercher..." oninput="afficherArticles()">
+    <div id="liste-articles"></div>
+  </div>
+
+  <div id="page-inscription" class="page" style="display:none">
+    <h2>Devenir Vendeur</h2>
+    <input type="text" id="nom-vendeur" placeholder="Ton nom complet">
+    <input type="text" id="tel-vendeur" placeholder="Ton numéro WhatsApp ex: 0168649929">
+    <input type="text" id="gmail-vendeur" placeholder="Ton adresse Gmail">
+    <input type="text" id="momo-vendeur" placeholder="Ton numéro compte MoMo">
+    <input type="password" id="code-vendeur" placeholder="Crée un code secret (4 chiffres)">
+    <button onclick="inscrireVendeur()">Créer mon espace</button>
+    <p id="message-inscription"></p>
+    <hr>
+    <h3>Déjà vendeur ? Connecte-toi</h3>
+    <input type="text" id="tel-login" placeholder="Ton numéro de téléphone">
+    <input type="password" id="code-login" placeholder="Ton code secret">
+    <button onclick="connecterVendeur()">Se connecter</button>
+    <p id="message-login"></p>
+  </div>
+
+  <div id="page-publier" class="page" style="display:none">
+    <h2>Publier un article</h2>
+    <p id="vendeur-connecte">Tu dois te connecter d'abord.</p>
+    <input type="text" id="nom-article" placeholder="Nom de l'article ex: Parfum">
+    <input type="number" id="prix-article" placeholder="Prix en FCFA ex: 2500">
+    <p>Photo de l'article :</p>
+    <input type="file" id="photo-article" accept="image/*" onchange="previewPhoto(event)">
+    <img id="preview-img" style="display:none; width:100%; border-radius:8px; margin-top:8px;">
+    <textarea id="desc-article" placeholder="Description..."></textarea>
+    <button onclick="publierArticle()">Publier</button>
+    <p id="message-publier"></p>
+  </div>
+
+  <div id="page-commandes" class="page" style="display:none">
+    <h2>Mes Commandes</h2>
+    <div id="total-commission" class="total-box"></div>
+    <div id="liste-commandes"></div>
+  </div>
+
+  <footer>
+    <hr>
+    <h3>Créateur du site</h3>
+    <p><b>OLATEDJOU Leadi Eyitayo Adechinan</b></p>
+    <p>MTN : 0152174341 | Moov / WhatsApp : 0168649929</p>
+    <p>Commission du site : 5% sur chaque vente.</p>
+  </footer>
+
+<script>
+let vendeurs = JSON.parse(localStorage.getItem("vendeurs") || "[]");
+let articles = JSON.parse(localStorage.getItem("articles") || "[]");
+let commandes = JSON.parse(localStorage.getItem("commandes") || "[]");
+let vendeurActuel = JSON.parse(localStorage.getItem("vendeurActuel") || "null");
+let photoData = "";
+let NUM_LEADI = "0152174341";
+function sauvegarder() {
+  localStorage.setItem("vendeurs", JSON.stringify(vendeurs));
+  localStorage.setItem("articles", JSON.stringify(articles));
+  localStorage.setItem("commandes", JSON.stringify(commandes));
+  localStorage.setItem("vendeurActuel", JSON.stringify(vendeurActuel));
+}
+function showPage(nom) {
+  document.getElementById("page-accueil").style.display = "none";
+  document.getElementById("page-inscription").style.display = "none";
+  document.getElementById("page-publier").style.display = "none";
+  document.getElementById("page-commandes").style.display = "none";
+  document.getElementById("page-" + nom).style.display = "block";
+  if (nom === "accueil") afficherArticles();
+  if (nom === "commandes") afficherCommandes();
+  if (nom === "publier") majPagePublier();
+}
+function formatWhatsApp(tel) {
+  let t = (tel || "").replace(/[^0-9]/g, "");
+  if (t.startsWith("229")) return t;
+  if (t.startsWith("0")) return "229" + t.substring(1);
+  return "229" + t;
+}
+function previewPhoto(event) {
+  let fichier = event.target.files[0];
+  if (!fichier) return;
+  let lecteur = new FileReader();
+  lecteur.onload = function(e) {
+    photoData = e.target.result;
+    let img = document.getElementById("preview-img");
+    img.src = photoData;
+    img.style.display = "block";
+  };
+  lecteur.readAsDataURL(fichier);
+}
+function inscrireVendeur() {
+  let nom = document.getElementById("nom-vendeur").value;
+  let tel = document.getElementById("tel-vendeur").value;
+  let gmail = document.getElementById("gmail-vendeur").value;
+  let momo = document.getElementById("momo-vendeur").value;
+  let code = document.getElementById("code-vendeur").value;
+  if (!nom || !tel || !gmail || !momo || !code) {
+    document.getElementById("message-inscription").innerText = "Remplis tout stp !";
+    return;
+  }
+  let nouveau = { nom: nom, tel: tel, gmail: gmail, momo: momo, code: code };
+  vendeurs.push(nouveau);
+  vendeurActuel = nouveau;
+  sauvegarder();
+  document.getElementById("message-inscription").innerText = "Bienvenue " + nom + " !";
+  showPage("publier");
+}
+function connecterVendeur() {
+  let tel = document.getElementById("tel-login").value;
+  let code = document.getElementById("code-login").value;
+  for (let v of vendeurs) {
+    if (v.tel === tel && v.code === code) {
+      vendeurActuel = v;
+      sauvegarder();
+      showPage("publier");
+      return;
+    }
+  }
+  document.getElementById("message-login").innerText = "Numero ou code faux.";
+}
+function majPagePublier() {
+  if (vendeurActuel) {
+    document.getElementById("vendeur-connecte").innerText = "Connecte : " + vendeurActuel.nom + " | MoMo : " + vendeurActuel.momo;
+  }
+}
+function publierArticle() {
+  if (!vendeurActuel) { document.getElementById("message-publier").innerText = "Connecte-toi d'abord."; return; }
+  let nom = document.getElementById("nom-article").value;
+  let prix = document.getElementById("prix-article").value;
+  let photo = photoData;
+  let desc = document.getElementById("desc-article").value;
+  if (!nom || !prix) { document.getElementById("message-publier").innerText = "Mets nom et prix."; return; }
+  let commission = Math.round(prix * 0.05);
+  let gainVendeur = prix - commission;
+  articles.push({ nom: nom, prix: Number(prix), photo: photo, desc: desc, vendeurNom: vendeurActuel.nom, vendeurTel: vendeurActuel.tel, vendeurMomo: vendeurActuel.momo, commission: commission, gainVendeur: gainVendeur });
+  sauvegarder();
+  photoData = "";
+  document.getElementById("preview-img").style.display = "none";
+  document.getElementById("photo-article").value = "";
+  document.getElementById("nom-article").value = "";
+  document.getElementById("prix-article").value = "";
+  document.getElementById("desc-article").value = "";
+  afficherArticles();
+  showPage("accueil");
+}
+function afficherArticles() {
+  let zone = document.getElementById("liste-articles");
+  let recherche = document.getElementById("recherche").value.toLowerCase();
+  zone.innerHTML = "";
+  if (articles.length === 0) { zone.innerHTML = "<p>Aucun article. Sois le premier !</p>"; return; }
+  for (let i = 0; i < articles.length; i++) {
+    let a = articles[i];
+    if (recherche && !a.nom.toLowerCase().includes(recherche)) continue;
+    let photoHtml = a.photo ? '<img src="' + a.photo + '">' : "";
+    zone.innerHTML += '<div class="article"><h3>' + a.nom + '</h3><p>Par : ' + a.vendeurNom + ' | Tel : ' + a.vendeurTel + '</p>' + photoHtml + '<p>' + (a.desc || "") + '</p><p class="prix">' + a.prix + ' FCFA</p><button class="btn-commander" onclick="commander(' + i + ')">Commander sur WhatsApp</button></div>';
+  }
+}
+function commander(index) {
+  let a = articles[index];
+  let nomPrenom = prompt("Nom et Prénom ? (Obligatoire)");
+  if (!nomPrenom || !nomPrenom.trim()) { alert("Demande annulée."); return; }
+  let classe = prompt("Ta Classe ? Ex : L1, L2, L3 (Obligatoire)");
+  if (!classe || !classe.trim()) { alert("Demande annulée."); return; }
+  let filiere = prompt("Ta Filière ? Ex : Droit, Gestion, Info (Obligatoire)");
+  if (!filiere || !filiere.trim()) { alert("Demande annulée."); return; }
+  let telClient = prompt("Ton Numéro de téléphone ? (Obligatoire)");
+  if (!telClient || !telClient.trim()) { alert("Demande annulée."); return; }
+  let paiement = prompt("Mode de paiement ? Tape : MoMo ou Cash (Obligatoire)");
+  if (!paiement || !paiement.trim()) { alert("Commande annulée. Tu dois choisir un mode de paiement."); return; }
+  paiement = paiement.toLowerCase().trim();
+  if (paiement.includes("momo") || paiement.includes("mo mo")) {
+    paiement = "MoMo";
+  } else if (paiement.includes("cash") || paiement.includes("espece") || paiement.includes("espèce") || paiement.includes("liquide")) {
+    paiement = "Cash";
+  } else {
+    alert("Commande annulée. Tu dois taper MoMo ou Cash.");
+    return;
+  }
+  let heureLivraison = prompt("Heure de livraison ? Ex : 12h30, 15h00 (Obligatoire)");
+  if (!heureLivraison || !heureLivraison.trim()) { alert("Commande annulée. Tu dois donner l'heure de livraison."); return; }
+  let etage = prompt("Dans quel étage / Bâtiment ? Ex : Bâtiment A - 1er étage (Obligatoire)");
+  if (!etage || !etage.trim()) { alert("Commande annulée. Tu dois donner l'étage."); return; }
+
+  // CALCUL AUTOMATIQUE DE LA COMMISSION
+  let commission = Math.round(a.prix * 0.05);
+  let gainVendeur = a.prix - commission;
+
+  commandes.push({ article: a.nom, prix: a.prix, client: nomPrenom, classe: classe, filiere: filiere, telClient: telClient, paiement: paiement, heureLivraison: heureLivraison, etage: etage, vendeur: a.vendeurNom, vendeurTel: a.vendeurTel, commission: commission, gainVendeur: gainVendeur, date: new Date().toLocaleString(), statut: "En attente" });
+  sauvegarder();
+
+  let message = "Bonjour " + a.vendeurNom + ", je veux commander sur Vente en ligne UCAO-UCC :\n\n" + "🛒 Article : " + a.nom + "\n" + "💰 Prix : " + a.prix + " FCFA\n\n" + "👤 Nom : " + nomPrenom + "\n" + "🎓 Classe : " + classe + "\n" + "📚 Filière : " + filiere + "\n" + "📞 Mon numéro : " + telClient + "\n" + "💳 Paiement : " + paiement + "\n" + "🕐 Heure de livraison : " + heureLivraison + "\n" + "🏢 Étage / Bâtiment : " + etage + "\n\n" + "ℹ️ Commission site (5%) : " + commission + " FCFA à envoyer à Leadi au " + NUM_LEADI + " après livraison.";
+  let numeroVendeur = formatWhatsApp(a.vendeurTel);
+  let lien = "https://wa.me/" + numeroVendeur + "?text=" + encodeURIComponent(message);
+  window.open(lien, "_blank");
+  alert("On t'envoie sur WhatsApp du vendeur. Appuie juste sur Envoyer !");
+  afficherCommandes();
+  showPage("commandes");
+}
+function afficherCommandes() {
+  let zone = document.getElementById("liste-commandes");
+  let totalBox = document.getElementById("total-commission");
+  let total = 0;
+  let totalRecu = 0;
+  for (let c of commandes) { total += (c.commission || 0); if (c.statut === "Reçu") totalRecu += (c.commission || 0); }
+  totalBox.innerHTML = "💰 Total commissions du site : " + total + " FCFA<br>✅ Déjà reçues : " + totalRecu + " FCFA<br>⏳ En attente : " + (total - totalRecu) + " FCFA";
+  if (commandes.length === 0) { zone.innerHTML = "<p>Aucune commande.</p>"; return; }
+  zone.innerHTML = "";
+  for (let i = 0; i < commandes.length; i++) {
+    let c = commandes[i];
+    let bouton = "";
+    if (c.statut === "Reçu") {
+      bouton = '<button class="btn-deja">✅ Colis déjà reçu</button>';
+    } else {
+      bouton = '<button class="btn-recu" onclick="colisRecu(' + i + ')">📦 J\'ai reçu le colis</button>';
+    }
+    zone.innerHTML += '<div class="article"><h3>' + c.article + ' - ' + c.prix + ' FCFA</h3><p>Client : ' + c.client + '</p><p>Classe : ' + (c.classe || "") + ' | Filière : ' + (c.filiere || "") + '</p><p>Tel : ' + c.telClient + '</p><p>Paiement : <b>' + (c.paiement || "") + '</b></p><p>🕐 Livraison : ' + (c.heureLivraison || "") + '</p><p>🏢 Étage : ' + (c.etage || "") + '</p><p>Vendeur : ' + c.vendeur + '</p><p>Commission (5%) : <b>' + c.commission + ' FCFA</b> | Gain vendeur : ' + c.gainVendeur + ' FCFA</p><p>Statut : <b>' + (c.statut || "") + '</b></p><p>' + (c.date || "") + '</p>' + bouton + '</div>';
+  }
+}
+function colisRecu(index) {
+  let c = commandes[index];
+  if (!confirm("Tu confirmes que tu as bien reçu : " + c.article + " ?")) return;
+  c.statut = "Reçu";
+  sauvegarder();
+  afficherCommandes();
+
+  // MESSAGE AUTOMATIQUE 1 : AU VENDEUR - COLIS REÇU + COMMISSION EN MEME TEMPS
+  let msgVendeur = "✅ COLIS REÇU - Vente UCAO-UCC\n\n" +
+    "Bonjour " + c.vendeur + ", le client " + c.client + " (" + c.classe + " " + c.filiere + ") confirme qu'il a bien reçu son colis :\n\n" +
+    "🛒 " + c.article + " - " + c.prix + " FCFA\n" +
+    "🕐 Livraison : " + c.heureLivraison + " - " + c.etage + "\n\n" +
+    "💰 COMMISSION À PAYER MAINTENANT :\n" +
+    "Tu dois envoyer " + c.commission + " FCFA (5%) à Leadi au " + NUM_LEADI + " (MoMo).\n" +
+    "Ton gain : " + c.gainVendeur + " FCFA.\n\n" +
+    "Merci de payer tout de suite 🙏";
+
+  let lienVendeur = "https://wa.me/" + formatWhatsApp(c.vendeurTel) + "?text=" + encodeURIComponent(msgVendeur);
+  window.open(lienVendeur, "_blank");
+
+  // MESSAGE AUTOMATIQUE 2 : À TOI (LEADI) - EN MEME TEMPS, SANS ATTENDRE
+  setTimeout(function() {
+    let msgLeadi = "💰 NOUVELLE COMMISSION À RÉCUPÉRER\n\n" +
+      "Vendeur : " + c.vendeur + " (" + c.vendeurTel + ")\n" +
+      "Client : " + c.client + "\n" +
+      "Article : " + c.article + " - " + c.prix + " FCFA\n" +
+      "Commission (5%) : " + c.commission + " FCFA\n" +
+      "Statut : Colis reçu ✅\n\n" +
+      "Le vendeur doit te payer maintenant.";
+    let lienLeadi = "https://wa.me/" + formatWhatsApp(NUM_LEADI) + "?text=" + encodeURIComponent(msgLeadi);
+    window.open(lienLeadi, "_blank");
+  }, 800);
+
+  alert("Merci ! 2 messages automatiques envoyés :\n1. Au vendeur : Colis reçu + Commission à payer\n2. À toi (Leadi) : Nouvelle commission de " + c.commission + " FCFA");
+}
+afficherArticles();
+majPagePublier();
+</script>
+</body>
+</html>￼Enter
