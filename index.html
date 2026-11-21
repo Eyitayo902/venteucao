@@ -16,8 +16,11 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 .sidebar h3{font-family:'Great Vibes',cursive;font-size:30px;color:#FF2E63}
 .sidebar p{font-size:13px;line-height:1.5;color:#555;margin:8px 0}
 .sidebar button{display:block;width:100%;text-align:left;padding:11px;border:none;background:#FFF0F3;border-radius:10px;margin-bottom:8px;font-weight:600;cursor:pointer}
-.welcome{position:fixed;inset:0;background:linear-gradient(180deg,#FF2E63,#6A11CB);z-index:100;display:flex;align-items:center;justify-content:center;padding:14px;color:#fff;overflow-y:auto}
-.box{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);padding:22px 16px;border-radius:22px;max-width:430px;width:100%;text-align:center}
+.welcome{position:fixed;inset:0;background:linear-gradient(180deg,#FF2E63,#6A11CB);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:14px;color:#fff;overflow-y:auto}
+.box{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);padding:22px 16px;border-radius:22px;max-width:430px;width:100%;text-align:center;margin-top:20px}
+/* C'EST ICI QUE J'AI FAIT DESCENDRE NOM ET PRENOM */
+#stepVendeur{padding-top:28px}
+#stepAcheteur{padding-top:28px}
 .box h1{font-family:'Great Vibes',cursive;font-size:38px;line-height:1.1}
 .box p{font-size:13px;line-height:1.5;margin:8px 0}
 .big{width:100%;padding:14px;border:none;border-radius:13px;font-weight:800;font-size:15px;cursor:pointer;margin-top:8px;font-family:'Poppins'}
@@ -28,10 +31,10 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 .commission{background:#6A11CB;color:#fff;padding:12px;border-radius:14px;font-size:13px;text-align:center;margin-bottom:12px}
 .mini-profil{background:#fff;padding:10px 12px;border-radius:14px;display:flex;gap:10px;align-items:center;margin-bottom:12px;cursor:pointer}
 .mini-profil img{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee}
+.mini-profil b{font-size:13px}.mini-profil span{font-size:11px;color:#666}
 .profil-detail{background:#fff;padding:14px;border-radius:16px;margin-bottom:12px;display:none}
 .profil-detail img{width:70px;height:70px;border-radius:50%;object-fit:cover}
 .profil-detail p{font-size:13px;line-height:1.5;margin-top:6px}
-.profil-detail input,.profil-detail textarea{width:100%;padding:11px;border:1px solid #eee;border-radius:11px;margin-top:7px;font-family:'Poppins'}
 .add{background:#fff;padding:14px;border-radius:16px;margin-bottom:12px}
 .add input,.add select,.add textarea{width:100%;padding:11px;border:1px solid #eee;border-radius:11px;margin-top:7px;font-family:'Poppins'}
 .add button{width:100%;padding:12px;background:#FF2E63;color:#fff;border:none;border-radius:11px;font-weight:800;margin-top:9px;cursor:pointer}
@@ -44,12 +47,12 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 .wa{background:#25D366;color:#fff}.del{background:#FF2E63;color:#fff}.violet{background:#6A11CB;color:#fff}.gris{background:#F0F0F0}
 .secu{background:#FFF3CD;padding:12px;border-radius:14px;font-size:12px;line-height:1.5;margin-bottom:12px}
 .accept{background:rgba(255,255,255,.25);padding:10px;border-radius:12px;text-align:left;font-size:12px;margin:8px 0}
-.comment-box{background:#FFF5F7;padding:10px;border-radius:12px;margin-top:10px}
-.comment-box input{width:100%;padding:10px;border:1px solid #eee;border-radius:10px;font-family:'Poppins'}
-.suggest{background:#fff;border:1px solid #eee;border-radius:10px;max-height:120px;overflow-y:auto;display:none}
-.suggest div{padding:8px 10px;cursor:pointer;font-size:13px}
-.mention{color:#6A11CB;font-weight:800}
-.legende{font-size:13px;color:#444;background:#FFF9E6;padding:8px;border-radius:10px;margin-top:6px}
+.types-box{text-align:left;font-size:13px;background:rgba(255,255,255,.2);padding:10px;border-radius:12px}
+.types-box label{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.voir-plus{width:100%;background:rgba(255,255,255,.3);color:#fff;border:none;padding:9px;border-radius:10px;font-weight:700;margin-top:6px;cursor:pointer}
+.mention-box{background:#fff;color:#333;border-radius:10px;text-align:left;display:none;overflow:hidden}
+.mention-box div{padding:10px;cursor:pointer;border-bottom:1px solid #eee}
+.comment{font-size:12px;background:#f7f7f7;padding:8px;border-radius:10px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -67,41 +70,40 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 </div>
 
 <div id="stepLogin" style="display:none">
-<input id="lWa" placeholder="Ton WhatsApp (ex: 0190****44)">
+<input id="lWa" placeholder="Ton WhatsApp">
 <input id="lPass" type="password" placeholder="Ton mot de passe">
 <button class="big white" onclick="login()">Se connecter 💖</button>
 <p style="font-size:12px" onclick="backRole()"><u>← Retour</u></p>
 </div>
 
-<!-- VENDEUR - BON ORDRE CORRIGÉ -->
+<!-- VENDEUR : NOM EN PREMIER ET DESCENDU -->
 <div id="stepVendeur" style="display:none">
-<!-- 1. NOM ET PRENOM EN PREMIER -->
 <input id="vNom" placeholder="Nom et Prénom">
-<!-- 2. CLASSE -->
 <input id="vClasse" placeholder="Classe (ex: L1, L2)">
-<!-- 3. FILIERE -->
 <input id="vFiliere" placeholder="Filière (ex: Droit, Gestion)">
-<!-- 4. WHATSAPP AVEC NOUVEL EXEMPLE -->
 <input id="vWa" placeholder="Numéro WhatsApp (ex: 0190****44)">
-<!-- 5. MOT DE PASSE -->
 <input id="vPass" type="password" placeholder="Crée un mot de passe">
-<!-- 6. TYPES D'ARTICLES DEPLACES ICI EN BAS -->
+
 <label>Les types d'articles que tu vends :</label>
-<div style="text-align:left;font-size:13px;background:rgba(255,255,255,.2);padding:10px;border-radius:12px">
-<label><input type="checkbox" class="cat" value="Vêtements"> 👗 Vêtements</label><br>
-<label><input type="checkbox" class="cat" value="Sacs"> 👜 Sacs</label><br>
-<label><input type="checkbox" class="cat" value="Téléphones"> 📱 Téléphones</label><br>
-<label><input type="checkbox" class="cat" value="Beauté"> 💄 Beauté</label><br>
-<label><input type="checkbox" class="cat" value="Livres"> 📚 Livres</label><br>
+<div class="types-box">
+<label><input type="checkbox" class="cat" value="Vêtements"> 👗 Vêtements</label>
+<label><input type="checkbox" class="cat" value="Sacs"> 👜 Sacs</label>
+<label><input type="checkbox" class="cat" value="Téléphones"> 📱 Téléphones</label>
+<!-- CACHÉ AU DÉBUT, VOIR PLUS POUR AFFICHER -->
+<div id="typesSuite" style="display:none">
+<label><input type="checkbox" class="cat" value="Beauté"> 💄 Beauté</label>
+<label><input type="checkbox" class="cat" value="Livres"> 📚 Livres</label>
 <label><input type="checkbox" class="cat" value="Nourriture"> 🍔 Nourriture</label>
 </div>
-<!-- 7. COMMISSION -->
-<div class="accept"><label><input type="checkbox" id="vAccept"> ✅ <b>J'accepte de payer les 5% de commission</b> sur chaque vente. Ex: je vends à 10.000 F, je garde 9.500 F.</label></div>
+<button type="button" class="voir-plus" id="btnVoirPlus" onclick="toggleTypes()">Voir plus ▼</button>
+</div>
+
+<div class="accept"><label><input type="checkbox" id="vAccept"> ✅ <b>J'accepte de payer les 5% de commission</b> sur chaque vente. Ex: je vends à 10.000 F, je donne 500 F au site, je garde 9.500 F.</label></div>
 <button class="big white" onclick="creerCompte('vendeur')">Créer mon compte vendeur 💖</button>
 <p style="font-size:12px" onclick="backRole()"><u>← Retour</u></p>
 </div>
 
-<!-- ACHETEUR - BON ORDRE -->
+<!-- ACHETEUR -->
 <div id="stepAcheteur" style="display:none">
 <input id="aNom" placeholder="Nom et Prénom">
 <input id="aClasse" placeholder="Classe (ex: L1)">
@@ -120,7 +122,8 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <p><b>🎯 Objectif :</b> Permettre aux étudiants UCAO-UCC de vendre et acheter entre eux facilement, en toute confiance.</p>
 <p><b>💰 Commission :</b> 5% sur chaque vente pour les vendeurs.</p>
 <p><b>🛡️ Sécurité :</b> Ne paie jamais avant de voir l'article. Rencontre sur le campus.</p>
-<button onclick="toggleMenu();openProfil()">👤 Profil</button>
+<button onclick="toggleMenu();ouvrirProfil()">👤 Profil</button>
+<button onclick="toggleMenu()">🏠 Accueil</button>
 <button onclick="toggleMenu();document.getElementById('addBox').scrollIntoView({behavior:'smooth'})">➕ Publier</button>
 <button onclick="supprimerCompte()">🗑 Supprimer mon compte</button>
 <button onclick="deconnexion()">🚪 Se déconnecter</button>
@@ -135,22 +138,26 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <div class="container">
 <div class="commission">💰 COMMISSION : <b>5% sur chaque vente</b> • Ex: Vente 10.000 F → Tu gardes 9.500 F</div>
 
-<div class="mini-profil" id="miniProfil" onclick="openProfil()" style="display:none">
+<div class="mini-profil" id="miniProfil" onclick="ouvrirProfil()" style="display:none">
 <img id="miniImg" src="https://via.placeholder.com/100">
-<div><b id="miniNom">Nom</b><br><span id="miniRole" style="font-size:11px;color:#666">Rôle</span></div>
+<div><b id="miniNom">Nom</b><br><span id="miniRole">Rôle</span></div>
 <div style="margin-left:auto">👤 ▼</div>
 </div>
 
 <div class="profil-detail" id="profilDetail">
 <img id="pImgBig" src="https://via.placeholder.com/100">
 <p id="pDetail"></p>
-<label>Ajouter / Changer ma photo de profil</label><input type="file" id="editPhoto" accept="image/*">
-<label>Ma bio</label><textarea id="editBio" placeholder="Ta bio..."></textarea>
-<button class="btn violet" onclick="sauverProfil()">💾 Modifier mon profil</button>
-<button class="btn gris" onclick="closeProfil()">Fermer</button>
-<button class="btn del" onclick="supprimerProfilPhoto()">🗑 Supprimer ma photo de profil</button>
-<h3 style="margin-top:14px;font-size:14px">📦 Mes articles postés</h3>
-<div id="mesArticles"></div>
+<label style="font-size:12px">Changer ma photo de profil</label>
+<input type="file" id="editPhoto" accept="image/*" style="width:100%;margin:6px 0">
+<label style="font-size:12px">Ma bio</label>
+<textarea id="editBio" placeholder="Écris ta bio..." style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px"></textarea>
+<input id="editNom" placeholder="Modifier Nom et Prénom" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:6px">
+<button class="btn violet" onclick="sauvegarderProfil()">💾 Modifier mon profil</button>
+<div style="margin-top:10px"><b>📦 Mes articles postés :</b><div id="mesArticles" style="font-size:12px"></div></div>
+<button class="btn gris" onclick="fermerProfil()">Fermer le profil</button>
+<button class="btn violet" onclick="deconnexion()">🚪 Se déconnecter</button>
+<button class="btn del" onclick="supprimerCompte()">🗑 Supprimer mon compte</button>
+<button class="btn del" onclick="supprimerPhotoProfil()">🗑 Supprimer ma photo de profil</button>
 </div>
 
 <div class="secu">🛡️ <b>Anti-arnaque :</b> Paie en main propre sur le campus. Ne fais jamais de transfert avant d'avoir vu l'article.</div>
@@ -164,7 +171,7 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <label>Ou photo depuis ta galerie</label><input type="file" id="pFile" accept="image/*">
 <label>Petite vidéo 15s</label><input type="file" id="pVideo" accept="video/*">
 <textarea id="pDesc" placeholder="Petite description"></textarea>
-<textarea id="pLegende" placeholder="Légende de ton article... ex: Nouvel arrivage, très chic ❤️"></textarea>
+<textarea id="pLegende" placeholder="✍️ Légende de ton article (ex: Nouvel arrivage ❤️...)"></textarea>
 <select id="pDispo"><option value="Disponible">✅ Disponible</option><option value="Vendu">❌ Vendu</option></select>
 <button onclick="ajouter()">Publier 💖</button>
 </div>
@@ -179,68 +186,76 @@ let user=JSON.parse(localStorage.getItem('ucao_user')||'null');
 let produits=JSON.parse(localStorage.getItem('ucao_products')||'[]');
 if(produits.length===0){
  produits=[
-  {t:'Sac à main élégant',p:'15000',stock:5,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',d:'Sac chic pour cours.',legende:'Nouvel arrivage, très chic ❤️',dispo:'Disponible',vendeur:'Eyitayo',wa:'229168649929',comments:[]},
-  {t:'Écouteurs Bluetooth',p:'8000',stock:8,img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',d:'Son clair.',legende:'Promo de la semaine',dispo:'Disponible',vendeur:'Eyitayo',wa:'229168649929',comments:[]},
-  {t:'Montre stylée',p:'12000',stock:3,img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600',d:'Pour briller.',legende:'',dispo:'Disponible',vendeur:'Eyitayo',wa:'229168649929',comments:[]}
+  {t:'Sac à main élégant',p:'15000',stock:5,img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600',d:'Sac chic pour cours.',legende:'Nouvel arrivage ❤️',dispo:'Disponible',vendeur:'Eyitayo',wa:'0190****44',comments:[]},
+  {t:'Écouteurs Bluetooth',p:'8000',stock:8,img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600',d:'Son clair.',legende:'Promo du jour 🎧',dispo:'Disponible',vendeur:'Eyitayo',wa:'0190****44',comments:[]},
+  {t:'Montre stylée',p:'12000',stock:3,img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600',d:'Pour briller.',legende:'Stock limité ⌚',dispo:'Disponible',vendeur:'Eyitayo',wa:'0190****44',comments:[]}
  ];localStorage.setItem('ucao_products',JSON.stringify(produits));
 }
-function choisirRole(r){document.getElementById('stepRole').style.display='none';document.getElementById('stepLogin').style.display='none';document.getElementById(r==='vendeur'?'stepVendeur':'stepAcheteur').style.display='block';document.getElementById('wTitle').innerText='Bienvenue mon amour...';document.getElementById('wText').innerText=r==='vendeur'?'Bienvenue vendeuse / vendeur ! Crée ton compte. 5% de commission.':'Bienvenue acheteuse / acheteur !'}
+function toggleTypes(){let s=document.getElementById('typesSuite');let b=document.getElementById('btnVoirPlus');if(s.style.display==='none'){s.style.display='block';b.innerText='Voir moins ▲'}else{s.style.display='none';b.innerText='Voir plus ▼'}}
+function choisirRole(r){document.getElementById('stepRole').style.display='none';document.getElementById('stepLogin').style.display='none';document.getElementById(r==='vendeur'?'stepVendeur':'stepAcheteur').style.display='block';document.getElementById('wTitle').innerText='Bienvenue mon amour...';document.getElementById('wText').innerText=r==='vendeur'?'Bienvenue vendeuse / vendeur ! Crée ton compte. 5% de commission sur chaque vente.':'Bienvenue acheteuse / acheteur ! Crée ton compte.'}
 function showLogin(){document.getElementById('stepRole').style.display='none';document.getElementById('stepVendeur').style.display='none';document.getElementById('stepAcheteur').style.display='none';document.getElementById('stepLogin').style.display='block';document.getElementById('wTitle').innerText='Bon retour mon amour... 💖';document.getElementById('wText').innerText='Bon retour ! Tu nous as manqué.'}
 function backRole(){document.getElementById('stepLogin').style.display='none';document.getElementById('stepVendeur').style.display='none';document.getElementById('stepAcheteur').style.display='none';document.getElementById('stepRole').style.display='block'}
 function readFile(id,cb){let f=document.getElementById(id).files[0];if(!f){cb('');return}let r=new FileReader();r.onload=e=>cb(e.target.result);r.readAsDataURL(f)}
 function creerCompte(role){
  let nom,wa,pass,classe,filiere;
- if(role==='vendeur'){nom=document.getElementById('vNom').value.trim();wa=document.getElementById('vWa').value.trim();pass=document.getElementById('vPass').value.trim();classe=document.getElementById('vClasse').value.trim();filiere=document.getElementById('vFiliere').value.trim();if(!nom||!wa||!pass){alert('Remplis Nom et Prénom, WhatsApp et mot de passe');return}if(!document.getElementById('vAccept').checked){alert('Tu dois accepter les 5% de commission');return}}
- else{nom=document.getElementById('aNom').value.trim();wa=document.getElementById('aWa').value.trim();pass=document.getElementById('aPass').value.trim();classe=document.getElementById('aClasse').value.trim();filiere=document.getElementById('aFiliere').value.trim();if(!nom||!wa||!pass){alert('Remplis Nom et Prénom, WhatsApp et mot de passe');return}}
+ if(role==='vendeur'){nom=document.getElementById('vNom').value.trim();wa=document.getElementById('vWa').value.trim();pass=document.getElementById('vPass').value.trim();classe=document.getElementById('vClasse').value.trim();filiere=document.getElementById('vFiliere').value.trim();if(!nom||!wa||!pass){alert('Remplis Nom, WhatsApp et mot de passe');return}if(!document.getElementById('vAccept').checked){alert('Tu dois accepter les 5% de commission ❤️');return}}
+ else{nom=document.getElementById('aNom').value.trim();wa=document.getElementById('aWa').value.trim();pass=document.getElementById('aPass').value.trim();classe=document.getElementById('aClasse').value.trim();filiere=document.getElementById('aFiliere').value.trim();if(!nom||!wa||!pass){alert('Remplis Nom, WhatsApp et mot de passe');return}}
  let cats=role==='vendeur'?[...document.querySelectorAll('.cat:checked')].map(c=>c.value).join(', '):'';
  let u={nom:nom,wa:wa,pass:pass,classe:classe,filiere:filiere,role:role,cats:cats,bio:'',photo:''};
  comptes.push(u);localStorage.setItem('ucao_comptes',JSON.stringify(comptes));localStorage.setItem('ucao_user',JSON.stringify(u));
- document.getElementById('welcome').style.display='none';showProfil(u);alert('Bienvenue dans la famille '+nom+' 🎉❤️');afficher();
+ document.getElementById('welcome').style.display='none';showProfil(u);alert('Bienvenue '+nom+' 🎉❤️');afficher();
 }
-function login(){let wa=document.getElementById('lWa').value.trim();let pass=document.getElementById('lPass').value.trim();let t=comptes.find(c=>c.wa===wa&&c.pass===pass);if(!t){alert('WhatsApp ou mot de passe incorrect.');return}localStorage.setItem('ucao_user',JSON.stringify(t));document.getElementById('welcome').style.display='none';showProfil(t);alert('Bon retour '+t.nom+' 💖');afficher();}
-function showProfil(u){document.getElementById('miniProfil').style.display='flex';document.getElementById('miniImg').src=u.photo||'https://via.placeholder.com/100';document.getElementById('miniNom').innerText=u.nom;document.getElementById('miniRole').innerText=u.role==='vendeur'?'🛍️ Vendeur • '+u.filiere:'🛒 Acheteur • '+u.filiere;document.getElementById('hello').innerText='Salut '+u.nom+' ❤️';document.getElementById('pImgBig').src=u.photo||'https://via.placeholder.com/100';document.getElementById('editBio').value=u.bio||'';let comm=u.role==='vendeur'?'<br>💰 Commission : <b>5% acceptée</b><br>🛍️ Je vends : '+(u.cats||''):'';document.getElementById('pDetail').innerHTML='<b>'+u.nom+'</b><br>📚 Classe : '+u.classe+'<br>🎓 Filière : '+u.filiere+'<br>💬 WhatsApp : '+u.wa+comm+'<br>📝 Bio : '+(u.bio||'Pas encore de bio');let mes=produits.filter(p=>p.wa===u.wa);document.getElementById('mesArticles').innerHTML=mes.length?mes.map(m=>'<div style="background:#FFF5F7;padding:8px;border-radius:10px;margin-top:6px;font-size:12px">📦 '+m.t+' - '+m.p+' F - Stock '+m.stock+'</div>').join(''):'<p style="font-size:12px">Tu n\'as pas encore posté d\'article.</p>';}
-function openProfil(){document.getElementById('profilDetail').style.display='block';document.getElementById('profilDetail').scrollIntoView({behavior:'smooth'});if(user)showProfil(user)}
-function closeProfil(){document.getElementById('profilDetail').style.display='none'}
-function sauverProfil(){readFile('editPhoto',photo=>{if(photo)user.photo=photo;user.bio=document.getElementById('editBio').value;let idx=comptes.findIndex(c=>c.wa===user.wa);if(idx>=0)comptes[idx]=user;localStorage.setItem('ucao_comptes',JSON.stringify(comptes));localStorage.setItem('ucao_user',JSON.stringify(user));showProfil(user);alert('Profil modifié ❤️')})}
-function supprimerProfilPhoto(){user.photo='';let idx=comptes.findIndex(c=>c.wa===user.wa);if(idx>=0)comptes[idx]=user;localStorage.setItem('ucao_comptes',JSON.stringify(comptes));localStorage.setItem('ucao_user',JSON.stringify(user));showProfil(user);alert('Photo supprimée')}
+function login(){let wa=document.getElementById('lWa').value.trim();let pass=document.getElementById('lPass').value.trim();let t=comptes.find(c=>c.wa===wa&&c.pass===pass);if(!t){alert('WhatsApp ou mot de passe incorrect.');return}localStorage.setItem('ucao_user',JSON.stringify(t));document.getElementById('welcome').style.display='none';showProfil(t);alert('Bon retour '+t.nom+' 💖');afficher()}
+function showProfil(u){
+ document.getElementById('miniProfil').style.display='flex';
+ document.getElementById('miniImg').src=u.photo||'https://via.placeholder.com/100';
+ document.getElementById('miniNom').innerText=u.nom;
+ document.getElementById('miniRole').innerText=u.role==='vendeur'?'🛍️ Vendeur • '+u.filiere:'🛒 Acheteur • '+u.filiere;
+ document.getElementById('pImgBig').src=u.photo||'https://via.placeholder.com/100';
+ document.getElementById('editBio').value=u.bio||'';document.getElementById('editNom').value=u.nom;
+ let comm=u.role==='vendeur'?'<br>💰 Commission : <b>5% acceptée</b><br>🛍️ Je vends : '+(u.cats||''):'' ;
+ document.getElementById('pDetail').innerHTML='<b>'+u.nom+'</b><br>📚 Classe : '+u.classe+'<br>🎓 Filière : '+u.filiere+'<br>💬 WhatsApp : '+u.wa+comm+'<br>📝 Bio : '+(u.bio||'Pas de bio pour le moment');
+ document.getElementById('hello').innerText='Salut '+u.nom+' ❤️';
+ let mes=produits.filter(p=>p.wa===u.wa);document.getElementById('mesArticles').innerHTML=mes.length?mes.map(m=> '• '+m.t+' - '+m.p+' F ('+m.stock+' dispo)').join('<br>'):'Aucun article posté pour le moment.';
+}
+function ouvrirProfil(){if(!user){alert('Connecte-toi d\'abord');return}showProfil(user);document.getElementById('profilDetail').style.display='block';document.getElementById('profilDetail').scrollIntoView({behavior:'smooth'})}
+function fermerProfil(){document.getElementById('profilDetail').style.display='none'}
+function sauvegarderProfil(){let newBio=document.getElementById('editBio').value;let newNom=document.getElementById('editNom').value.trim();if(!newNom){alert('Le nom ne peut pas être vide');return}readFile('editPhoto',photo=>{user.nom=newNom;user.bio=newBio;if(photo)user.photo=photo;let idx=comptes.findIndex(c=>c.wa===user.wa);if(idx>-1)comptes[idx]=user;localStorage.setItem('ucao_comptes',JSON.stringify(comptes));localStorage.setItem('ucao_user',JSON.stringify(user));showProfil(user);alert('Profil modifié ❤️')})}
+function supprimerPhotoProfil(){user.photo='';let idx=comptes.findIndex(c=>c.wa===user.wa);if(idx>-1)comptes[idx]=user;localStorage.setItem('ucao_comptes',JSON.stringify(comptes));localStorage.setItem('ucao_user',JSON.stringify(user));showProfil(user);alert('Photo supprimée')}
 function deconnexion(){if(confirm('Te déconnecter ?')){localStorage.removeItem('ucao_user');location.reload()}}
-function supprimerCompte(){if(!user)return;if(!confirm('Supprimer ton compte ?'))return;comptes=comptes.filter(c=>c.wa!==user.wa);localStorage.setItem('ucao_comptes',JSON.stringify(comptes));produits=produits.filter(p=>p.wa!==user.wa);localStorage.setItem('ucao_products',JSON.stringify(produits));localStorage.removeItem('ucao_user');alert('Compte supprimé');location.reload()}
+function supprimerCompte(){if(!user){alert('Connecte-toi d\'abord');return}if(!confirm('Supprimer ton compte ?'))return;comptes=comptes.filter(c=>c.wa!==user.wa);localStorage.setItem('ucao_comptes',JSON.stringify(comptes));produits=produits.filter(p=>p.wa!==user.wa);localStorage.setItem('ucao_products',JSON.stringify(produits));localStorage.removeItem('ucao_user');alert('Compte supprimé ❤️');location.reload()}
 function toggleMenu(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show')}
-function formatMentions(txt){return txt.replace(/@([A-Za-zÀ-ÿ0-9_ ]+)/g,'<span class="mention">@$1</span>')}
+function formatMentions(txt){return txt.replace(/@([A-Za-zÀ-ÿ ]+?)(?=\s|$|,|\.)/g,'<b style="color:#6A11CB">@$1</b>')}
 function afficher(){
  let html='';
  produits.forEach((pr,i)=>{
   let media=pr.video?`<video src="${pr.video}" controls></video>`:pr.img?`<img src="${pr.img}">`:'';
-  let waClean=(pr.wa||'').replace(/\s/g,'').replace(/^0/,'');if(waClean&&!waClean.startsWith('229'))waClean='229'+waClean;
+  let waClean=(pr.wa||'').replace(/\s/g,'');
   let comm=Math.round(pr.p*0.05);let gain=pr.p-comm;
-  let commentsHtml=(pr.comments||[]).map((c,ci)=>`<div style="background:#fff;padding:8px;border-radius:10px;margin-top:6px;font-size:12px"><b>${c.auteur}</b> : ${formatMentions(c.texte)}${c.reponse?`<div style="margin-top:4px;background:#F0Eaff;padding:6px;border-radius:8px">↩️ <b>${pr.vendeur} (vendeur)</b> : ${formatMentions(c.reponse)}</div>`:''}<button onclick="repondre(${i},${ci})" style="border:none;background:none;color:#6A11CB;font-size:11px;cursor:pointer">Répondre</button></div>`).join('');
-  html+=`<div class="card">${media}<div class="body"><span class="badge ${pr.dispo==='Disponible'?'ok':'no'}">${pr.dispo==='Disponible'?'✅ Disponible':'❌ Vendu'}</span> <span style="font-size:12px">📦 Stock : <b>${pr.stock}</b></span><h3 style="font-family:'Playfair Display',serif;margin:6px 0">${pr.t}</h3><div class="price">${pr.p} FCFA</div><p style="font-size:12px;color:#6A11CB">💰 Commission 5% : ${comm} F • Tu gagnes : ${gain} F</p><p style="font-size:13px;color:#666">${pr.d}</p>${pr.legende?`<div class="legende">✍️ Légende : ${pr.legende}</div>`:''}<p style="font-size:12px;margin-top:6px">👤 ${pr.vendeur} • 💬 WhatsApp : ${pr.wa||''}</p><label style="font-size:12px">Nombre :</label><input type="number" id="q${i}" value="1" min="1" max="${pr.stock}" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:4px"><button class="btn wa" onclick="commander(${i})">💬 Commander sur WhatsApp</button><button class="btn gris" onclick="annuler(${i})">Annuler ma commande</button><button class="btn violet" onclick="toggleDispo(${i})">🔄 Disponible / Vendu</button><button class="btn del" onclick="supprimer(${i})">🗑 SUPPRIMER MON ARTICLE</button><button class="btn gris" onclick="modifierLegende(${i})">✍️ Ajouter / Modifier la légende</button><div class="comment-box"><b style="font-size:13px">💬 Commentaires</b>${commentsHtml}<input id="com${i}" placeholder="Écris un commentaire... Tape @ pour mentionner quelqu'un" oninput="showSuggest(${i})"><div class="suggest" id="sug${i}"></div><button class="btn violet" onclick="ajouterComment(${i})">Poster mon commentaire</button></div></div></div>`;
+  let comments=(pr.comments||[]).map((c,j)=>`<div class="comment"><b>${c.auteur}</b> : ${formatMentions(c.texte)}<br><span style="color:#6A11CB;cursor:pointer" onclick="repondre(${i},${j},'${c.auteur}')">↩ Répondre</span>${(c.reponses||[]).map(r=>`<div style="margin-left:12px;margin-top:4px;background:#fff;padding:6px;border-radius:8px"><b>${r.auteur} (vendeur)</b> : ${formatMentions(r.texte)}</div>`).join('')}</div>`).join('');
+  html+=`<div class="card">${media}<div class="body"><span class="badge ${pr.dispo==='Disponible'?'ok':'no'}">${pr.dispo==='Disponible'?'✅ Disponible':'❌ Vendu'}</span> <span style="font-size:12px">📦 Stock : <b>${pr.stock}</b></span><h3 style="font-family:'Playfair Display',serif;margin:6px 0">${pr.t}</h3><div class="price">${pr.p} FCFA</div><p style="font-size:12px;color:#6A11CB">💰 Commission 5% : ${comm} F • Tu gagnes : ${gain} F</p><p style="font-size:13px;color:#666">${pr.d}</p><p style="font-size:13px;background:#FFF0F3;padding:8px;border-radius:10px">✍️ <b>Légende :</b> ${pr.legende||'Pas de légende'}</p><button class="btn gris" onclick="modifierLegende(${i})">✍️ Ajouter / Modifier la légende</button><p style="font-size:12px;margin-top:6px">👤 ${pr.vendeur} • 💬 WhatsApp : ${pr.wa}</p><label style="font-size:12px">Nombre à commander :</label><input type="number" id="q${i}" value="1" min="1" max="${pr.stock}" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:4px"><button class="btn wa" onclick="commander(${i})">💬 Commander sur WhatsApp</button><button class="btn gris" onclick="annuler(${i})">Annuler ma commande</button><button class="btn violet" onclick="toggleDispo(${i})">🔄 Disponible / Vendu</button><button class="btn del" onclick="supprimer(${i})">🗑 SUPPRIMER MON ARTICLE</button><div style="margin-top:10px"><b style="font-size:13px">💬 Commentaires</b>${comments}<input id="cmt${i}" placeholder="Écris un commentaire... Tape @ pour mentionner" oninput="showMentions(${i})" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:6px"><div class="mention-box" id="ment${i}"></div><button class="btn violet" onclick="ajouterComment(${i})">Poster le commentaire</button></div></div></div>`;
  });
  document.getElementById('liste').innerHTML=html;
 }
-function showSuggest(i){
- let inp=document.getElementById('com'+i);let val=inp.value;let atPos=val.lastIndexOf('@');let box=document.getElementById('sug'+i);
- if(atPos===-1){box.style.display='none';return}
- let q=val.slice(atPos+1).toLowerCase();
- let matches=comptes.filter(c=>c.nom.toLowerCase().includes(q));
- if(!matches.length){box.style.display='none';return}
- box.innerHTML=matches.map(c=>`<div onclick="pickMention(${i},'${c.nom.replace(/'/g,'')}')">@${c.nom} • ${c.role}</div>`).join('');box.style.display='block';
-}
-function pickMention(i,nom){let inp=document.getElementById('com'+i);let atPos=inp.value.lastIndexOf('@');inp.value=inp.value.slice(0,atPos+1)+nom+' ';document.getElementById('sug'+i).style.display='none';inp.focus()}
-function ajouterComment(i){let inp=document.getElementById('com'+i);let txt=inp.value.trim();if(!txt)return;if(!produits[i].comments)produits[i].comments=[];produits[i].comments.push({auteur:user?user.nom:'Visiteur',texte:txt,reponse:''});localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
-function repondre(i,ci){let rep=prompt('Ta réponse en tant que vendeur :');if(rep){produits[i].comments[ci].reponse=rep;localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
-function modifierLegende(i){let nl=prompt('Nouvelle légende pour cet article :',produits[i].legende||'');if(nl!==null){produits[i].legende=nl;localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
+function modifierLegende(i){let n=prompt('Nouvelle légende pour cet article :',produits[i].legende||'');if(n!==null){produits[i].legende=n;localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
+function showMentions(i){let inp=document.getElementById('cmt'+i);let box=document.getElementById('ment'+i);let v=inp.value;let at=v.lastIndexOf('@');if(at===-1){box.style.display='none';return}let q=v.slice(at+1).toLowerCase();let list=comptes.filter(c=>c.nom.toLowerCase().includes(q));if(!list.length){box.style.display='none';return}box.innerHTML=list.map(c=>`<div onclick="choisirMention(${i},'${c.nom}')">👤 ${c.nom} • ${c.role}</div>`).join('');box.style.display='block'}
+function choisirMention(i,nom){let inp=document.getElementById('cmt'+i);let at=inp.value.lastIndexOf('@');inp.value=inp.value.slice(0,at)+'@'+nom+' ';document.getElementById('ment'+i).style.display='none';inp.focus()}
+function ajouterComment(i){let txt=document.getElementById('cmt'+i).value.trim();if(!txt){alert('Écris un commentaire');return}if(!produits[i].comments)produits[i].comments=[];produits[i].comments.push({auteur:user?user.nom:'Visiteur',texte:txt,reponses:[]});localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
+function repondre(i,j,auteur){let rep=prompt('Répondre à '+auteur+' :');if(!rep)return;if(!produits[i].comments[j].reponses)produits[i].comments[j].reponses=[];produits[i].comments[j].reponses.push({auteur:user?user.nom:'Vendeur',texte:rep});localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
 function ajouter(){
  let t=document.getElementById('pTitle').value.trim();let p=document.getElementById('pPrice').value.trim();let stock=parseInt(document.getElementById('pStock').value)||1;
  if(!t||!p){alert('Mets le nom et le prix');return}
  readFile('pFile',photo=>{
   let vidFile=document.getElementById('pVideo').files[0];
-  let done=(videoUrl)=>{produits.unshift({t:t,p:p,stock:stock,img:photo||document.getElementById('pImg').value.trim()||'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600',video:videoUrl||'',d:document.getElementById('pDesc').value.trim()||'Article UCAO ❤️',legende:document.getElementById('pLegende').value.trim(),dispo:document.getElementById('pDispo').value,vendeur:user?user.nom:'Vendeur UCAO',wa:user?user.wa:'',comments:[]});localStorage.setItem('ucao_products',JSON.stringify(produits));afficher();alert('Article publié ❤️')};
+  let done=(videoUrl)=>{
+   produits.unshift({t:t,p:p,stock:stock,img:photo||document.getElementById('pImg').value.trim()||'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600',video:videoUrl||'',d:document.getElementById('pDesc').value.trim()||'Article UCAO ❤️',legende:document.getElementById('pLegende').value.trim(),dispo:document.getElementById('pDispo').value,vendeur:user?user.nom:'Vendeur UCAO',wa:user?user.wa:'0190****44',comments:[]});
+   localStorage.setItem('ucao_products',JSON.stringify(produits));afficher();alert('Article publié ❤️');
+  };
   if(vidFile){let r=new FileReader();r.onload=e=>done(e.target.result);r.readAsDataURL(vidFile)}else done('');
  });
 }
-function commander(i){let q=parseInt(document.getElementById('q'+i).value)||1;if(q>produits[i].stock){alert('Il ne reste que '+produits[i].stock);return}produits[i].stock-=q;if(produits[i].stock===0)produits[i].dispo='Vendu';localStorage.setItem('ucao_products',JSON.stringify(produits));let waClean=(produits[i].wa||'').replace(/\s/g,'').replace(/^0/,'');if(!waClean.startsWith('229'))waClean='229'+waClean;window.open('https://wa.me/'+waClean+'?text='+encodeURIComponent('Bonjour '+produits[i].vendeur+', je veux commander '+q+' x '+produits[i].t));afficher();}
-function annuler(i){if(confirm('Annuler ta commande ?')){produits[i].stock+=1;if(produits[i].stock>0)produits[i].dispo='Disponible';localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
+function commander(i){let q=parseInt(document.getElementById('q'+i).value)||1;if(q>produits[i].stock){alert('Il ne reste que '+produits[i].stock);return}produits[i].stock-=q;if(produits[i].stock===0)produits[i].dispo='Vendu';localStorage.setItem('ucao_products',JSON.stringify(produits));let waClean=(produits[i].wa||'').replace(/\s/g,'');window.open('https://wa.me/'+waClean+'?text='+encodeURIComponent('Bonjour '+produits[i].vendeur+', je veux commander '+q+' x '+produits[i].t));afficher()}
+function annuler(i){if(confirm('Annuler ta commande ?')){produits[i].stock+=1;if(produits[i].stock>0)produits[i].dispo='Disponible';localStorage.setItem('ucao_products',JSON.stringify(produits));afficher();alert('Commande annulée ❤️')}}
 function supprimer(i){if(confirm('Supprimer cet article ?')){produits.splice(i,1);localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}}
 function toggleDispo(i){produits[i].dispo=produits[i].dispo==='Disponible'?'Vendu':'Disponible';localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
 if(user){document.getElementById('welcome').style.display='none';showProfil(user)}
