@@ -260,6 +260,17 @@ function supprimer(i){if(confirm('Supprimer cet article ?')){produits.splice(i,1
 function toggleDispo(i){produits[i].dispo=produits[i].dispo==='Disponible'?'Vendu':'Disponible';localStorage.setItem('ucao_products',JSON.stringify(produits));afficher()}
 if(user){document.getElementById('welcome').style.display='none';showProfil(user)}
 afficher();
+function voirPlusTypes(){
+  let d = document.getElementById('plusTypes');
+  let b = document.getElementById('btnPlusTypes');
+  if(d.style.display === 'none'){
+    d.style.display = 'block';
+    b.innerText = 'Voir moins ▲';
+  } else {
+    d.style.display = 'none';
+    b.innerText = 'Voir plus ▼';
+  }
+}
 </script>
 </body>
 </html>
