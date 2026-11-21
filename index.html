@@ -30,8 +30,8 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 .container{max-width:520px;margin:0 auto;padding:14px}
 .commission{background:#6A11CB;color:#fff;padding:12px;border-radius:14px;font-size:13px;text-align:center;margin-bottom:12px}
 .search-bar{display:flex;gap:8px;margin-bottom:12px}
-.search-bar input{flex:1;padding:12px;border:1px solid #eee;border-radius:12px;font-family:'Poppins';font-size:14px;background:#fff}
-.search-bar button{padding:12px 14px;border:none;border-radius:12px;background:#FF2E63;color:#fff;font-weight:800;cursor:pointer}
+.search-bar input{flex:1;padding:12px;border:1px solid #eee;border-radius:13px;font-family:'Poppins';font-size:14px;background:#fff}
+.search-bar button{background:#FF2E63;color:#fff;border:none;padding:0 16px;border-radius:13px;font-size:18px;cursor:pointer}
 .mini-profil{background:#fff;padding:10px 12px;border-radius:14px;display:flex;gap:10px;align-items:center;margin-bottom:12px;cursor:pointer}
 .mini-profil img{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee}
 .mini-profil b{font-size:13px}.mini-profil span{font-size:11px;color:#666}
@@ -65,20 +65,17 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <div style="font-size:36px">❤️</div>
 <h1 id="wTitle">Bienvenue mon amour...</h1>
 <p id="wText">Bienvenue dans ton petit marché du cœur. La famille UCAO vend et achète avec amour.</p>
-
 <div id="stepRole">
 <button class="big white" onclick="choisirRole('vendeur')">🛍️ Je suis Vendeur</button>
 <button class="big trans" onclick="choisirRole('acheteur')">🛒 Je suis Acheteur</button>
 <p style="font-size:12px">Vous avez déjà un compte ? <b onclick="showLogin()" style="text-decoration:underline;cursor:pointer">Connectez-vous</b></p>
 </div>
-
 <div id="stepLogin" style="display:none">
 <input id="lWa" placeholder="Ton WhatsApp">
 <input id="lPass" type="password" placeholder="Ton mot de passe">
 <button class="big white" onclick="login()">Se connecter 💖</button>
 <p style="font-size:12px" onclick="backRole()"><u>← Retour</u></p>
 </div>
-
 <div id="stepVendeur" style="display:none">
 <input id="vNom" placeholder="Nom et Prénom">
 <input id="vClasse" placeholder="Classe (ex: L1, L2)">
@@ -101,7 +98,6 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <button class="big white" onclick="creerCompte('vendeur')">Créer mon compte vendeur 💖</button>
 <p style="font-size:12px" onclick="backRole()"><u>← Retour</u></p>
 </div>
-
 <div id="stepAcheteur" style="display:none">
 <input id="aNom" placeholder="Nom et Prénom">
 <input id="aClasse" placeholder="Classe (ex: L1)">
@@ -118,7 +114,7 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 <div class="sidebar" id="sidebar">
 <h3>Love Market ❤️</h3>
 <p><b>🎯 Objectif :</b> Permettre aux étudiants UCAO-UCC de vendre et acheter entre eux facilement, en toute confiance.</p>
-<p><b>💰 Commission :</b> 5% sur chaque vente pour les vendeurs.</p>
+<p id="commissionMenu"><b>💰 Commission :</b> 5% sur chaque vente pour les vendeurs.</p>
 <button onclick="toggleMenu();ouvrirProfil()">👤 Profil</button>
 <button onclick="toggleMenu()">🏠 Accueil</button>
 <button id="btnPublierMenu" onclick="toggleMenu();document.getElementById('addBox').scrollIntoView({behavior:'smooth'})">➕ Publier</button>
@@ -134,7 +130,7 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 </header>
 
 <div class="container">
-<div class="commission">💰 COMMISSION : <b>5% sur chaque vente</b> • Ex: Vente 10.000 F → Tu gardes 9.500 F</div>
+<div class="commission" id="commissionBox">💰 COMMISSION : <b>5% sur chaque vente</b> • Ex: Vente 10.000 F → Tu gardes 9.500 F</div>
 
 <div class="mini-profil" id="miniProfil" onclick="ouvrirProfil()" style="display:none">
 <img id="miniImg" src="https://via.placeholder.com/100">
@@ -174,7 +170,7 @@ header{background:#fff;padding:12px 14px;display:flex;align-items:center;gap:10p
 </div>
 
 <div class="search-bar">
-<input id="searchInput" placeholder="🔍 Rechercher un article... ex: sac, téléphone, montre" oninput="afficher()">
+<input id="searchInput" placeholder="🔍 Rechercher un article... ex: Sac" oninput="afficher()">
 <button onclick="afficher()">🔍</button>
 </div>
 
@@ -188,8 +184,18 @@ let user=JSON.parse(localStorage.getItem('ucao_user')||'null');
 let produits=JSON.parse(localStorage.getItem('ucao_products')||'[]');
 produits=produits.filter(p=>!(p.vendeur==='Eyitayo' && ['Sac à main élégant','Écouteurs Bluetooth','Montre stylée'].includes(p.t)));
 localStorage.setItem('ucao_products',JSON.stringify(produits));
-function cleanWa(wa){let c=(wa||'').replace(/\D/g,'');if(c.startsWith('229')) return c;if(c.startsWith('0')) return '229'+c.slice(1);if(c.length===8) return '229'+c;return c;}
-function majVisibilite(){let isVendeur=user && user.role==='vendeur';let addBox=document.getElementById('addBox');let btnMenu=document.getElementById('btnPublierMenu');if(addBox) addBox.style.display=isVendeur?'block':'none';if(btnMenu) btnMenu.style.display=isVendeur?'block':'none';}
+function cleanWa(wa){let c=(wa||'').replace(/\D/g,'');if(c.startsWith('229'))return c;if(c.startsWith('0'))return '229'+c.slice(1);if(c.length===8)return '229'+c;return c;}
+function majVisibilite(){
+  let isVendeur = user && user.role==='vendeur';
+  let addBox=document.getElementById('addBox');
+  let btnMenu=document.getElementById('btnPublierMenu');
+  let commBox=document.getElementById('commissionBox');
+  let commMenu=document.getElementById('commissionMenu');
+  if(addBox) addBox.style.display = isVendeur ? 'block' : 'none';
+  if(btnMenu) btnMenu.style.display = isVendeur ? 'block' : 'none';
+  if(commBox) commBox.style.display = isVendeur ? 'block' : 'none';
+  if(commMenu) commMenu.style.display = isVendeur ? 'block' : 'none';
+}
 function toggleTypes(){let s=document.getElementById('typesSuite');let b=document.getElementById('btnVoirPlus');if(s.style.display==='none'){s.style.display='block';b.innerText='Voir moins ▲'}else{s.style.display='none';b.innerText='Voir plus ▼'}}
 function choisirRole(r){document.getElementById('stepRole').style.display='none';document.getElementById('stepLogin').style.display='none';document.getElementById(r==='vendeur'?'stepVendeur':'stepAcheteur').style.display='block';document.getElementById('wTitle').innerText='Bienvenue mon amour...';document.getElementById('wText').innerText=r==='vendeur'?'Bienvenue vendeuse / vendeur ! Crée ton compte. 5% de commission sur chaque vente.':'Bienvenue acheteuse / acheteur ! Crée ton compte.'}
 function showLogin(){document.getElementById('stepRole').style.display='none';document.getElementById('stepVendeur').style.display='none';document.getElementById('stepAcheteur').style.display='none';document.getElementById('stepLogin').style.display='block';document.getElementById('wTitle').innerText='Bon retour mon amour... 💖';document.getElementById('wText').innerText='Bon retour ! Tu nous as manqué.'}
@@ -226,18 +232,10 @@ function supprimerCompte(){if(!user){alert('Connecte-toi d\'abord');return}if(!c
 function toggleMenu(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show')}
 function formatMentions(txt){return txt.replace(/@([A-Za-zÀ-ÿ ]+?)(?=\s|$|,|\.)/g,'<b style="color:#6A11CB">@$1</b>')}
 function afficher(){
- let q=(document.getElementById('searchInput')?document.getElementById('searchInput').value.trim().toLowerCase():'');
- let listeFiltre=produits.filter(pr=>{
-   if(!q) return true;
-   let txt=(pr.t+' '+pr.d+' '+(pr.legende||'')+' '+pr.vendeur+' '+pr.p).toLowerCase();
-   return txt.includes(q);
- });
- if(produits.length===0){
-   document.getElementById('liste').innerHTML='<div class="empty">💖 Aucun article pour le moment.<br>Les vendeurs vont bientôt poster !</div>';
-   return;
- }
+ let q=(document.getElementById('searchInput')?document.getElementById('searchInput').value.toLowerCase().trim():'');
+ let listeFiltre=produits.filter(pr=>!q || (pr.t+' '+pr.d+' '+pr.vendeur+' '+(pr.legende||'')).toLowerCase().includes(q));
  if(listeFiltre.length===0){
-   document.getElementById('liste').innerHTML='<div class="empty">🔍 Aucun article trouvé pour "'+q+'"<br>Essaie un autre mot.</div>';
+   document.getElementById('liste').innerHTML = produits.length===0 ? '<div class="empty">💖 Aucun article pour le moment.<br>Les vendeurs vont bientôt poster !</div>' : '<div class="empty">🔍 Aucun article trouvé pour "'+q+'"</div>';
    return;
  }
  let html='';
@@ -245,10 +243,12 @@ function afficher(){
   let i=produits.indexOf(pr);
   let media=pr.video?`<video src="${pr.video}" controls></video>`:pr.img?`<img src="${pr.img}">`:'';
   let comm=Math.round(pr.p*0.05);let gain=pr.p-comm;
-  let isOwner=user && user.wa===pr.wa;
+  let isOwner = user && user.wa===pr.wa;
+  let isVendeur = user && user.role==='vendeur';
   let comments=(pr.comments||[]).map((c,j)=>`<div class="comment"><b>${c.auteur}</b> : ${formatMentions(c.texte)}<br><span style="color:#6A11CB;cursor:pointer" onclick="repondre(${i},${j},'${c.auteur}')">↩ Répondre</span>${(c.reponses||[]).map(r=>`<div style="margin-left:12px;margin-top:4px;background:#fff;padding:6px;border-radius:8px"><b>${r.auteur} (vendeur)</b> : ${formatMentions(r.texte)}</div>`).join('')}</div>`).join('');
-  let btnsProprietaire=isOwner?`<button class="btn gris" onclick="modifierLegende(${i})">✍️ Ajouter / Modifier la légende</button><button class="btn violet" onclick="toggleDispo(${i})">🔄 Disponible / Vendu</button><button class="btn del" onclick="supprimer(${i})">🗑 SUPPRIMER MON ARTICLE</button>`:'';
-  html+=`<div class="card">${media}<div class="body"><span class="badge ${pr.dispo==='Disponible'?'ok':'no'}">${pr.dispo==='Disponible'?'✅ Disponible':'❌ Vendu'}</span> <span style="font-size:12px">📦 Stock : <b>${pr.stock}</b></span><h3 style="font-family:'Playfair Display',serif;margin:6px 0">${pr.t}</h3><div class="price">${pr.p} FCFA</div><p style="font-size:12px;color:#6A11CB">💰 Commission 5% : ${comm} F • Tu gagnes : ${gain} F</p><p style="font-size:13px;color:#666">${pr.d}</p><p style="font-size:13px;background:#FFF0F3;padding:8px;border-radius:10px">✍️ <b>Légende :</b> ${pr.legende||'Pas de légende'}</p>${btnsProprietaire}<p style="font-size:12px;margin-top:6px">👤 ${pr.vendeur} • 💬 WhatsApp : ${pr.wa}</p><label style="font-size:12px">Nombre à commander :</label><input type="number" id="q${i}" value="1" min="1" max="${pr.stock}" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:4px"><button class="btn wa" onclick="commander(${i})">🛒 Acheter - Aller sur WhatsApp du vendeur</button><div style="margin-top:10px"><b style="font-size:13px">💬 Commentaires</b>${comments}<input id="cmt${i}" placeholder="Écris un commentaire... Tape @ pour mentionner" oninput="showMentions(${i})" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:6px"><div class="mention-box" id="ment${i}"></div><button class="btn violet" onclick="ajouterComment(${i})">Poster le commentaire</button></div></div></div>`;
+  let btnsProprietaire = isOwner ? `<button class="btn gris" onclick="modifierLegende(${i})">✍️ Ajouter / Modifier la légende</button><button class="btn violet" onclick="toggleDispo(${i})">🔄 Disponible / Vendu</button><button class="btn del" onclick="supprimer(${i})">🗑 SUPPRIMER MON ARTICLE</button>` : ``;
+  let infoCommission = isVendeur ? `<p style="font-size:12px;color:#6A11CB">💰 Commission 5% : ${comm} F • Tu gagnes : ${gain} F</p>` : ``;
+  html+=`<div class="card">${media}<div class="body"><span class="badge ${pr.dispo==='Disponible'?'ok':'no'}">${pr.dispo==='Disponible'?'✅ Disponible':'❌ Vendu'}</span> <span style="font-size:12px">📦 Stock : <b>${pr.stock}</b></span><h3 style="font-family:'Playfair Display',serif;margin:6px 0">${pr.t}</h3><div class="price">${pr.p} FCFA</div>${infoCommission}<p style="font-size:13px;color:#666">${pr.d}</p><p style="font-size:13px;background:#FFF0F3;padding:8px;border-radius:10px">✍️ <b>Légende :</b> ${pr.legende||'Pas de légende'}</p>${btnsProprietaire}<p style="font-size:12px;margin-top:6px">👤 ${pr.vendeur} • 💬 WhatsApp : ${pr.wa}</p><label style="font-size:12px">Nombre à commander :</label><input type="number" id="q${i}" value="1" min="1" max="${pr.stock}" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:4px"><button class="btn wa" onclick="commander(${i})">🛒 Acheter - Aller sur WhatsApp du vendeur</button><div style="margin-top:10px"><b style="font-size:13px">💬 Commentaires</b>${comments}<input id="cmt${i}" placeholder="Écris un commentaire... Tape @ pour mentionner" oninput="showMentions(${i})" style="width:100%;padding:10px;border:1px solid #eee;border-radius:10px;margin-top:6px"><div class="mention-box" id="ment${i}"></div><button class="btn violet" onclick="ajouterComment(${i})">Poster le commentaire</button></div></div></div>`;
  });
  document.getElementById('liste').innerHTML=html;
 }
@@ -276,7 +276,7 @@ function commander(i){
  let q=parseInt(document.getElementById('q'+i).value)||1;
  if(q>produits[i].stock){alert('Il ne reste que '+produits[i].stock);return}
  let pr=produits[i];
- let msg='Bonjour '+pr.vendeur+' ❤️\n\nJe suis '+user.nom+'\nJe suis en '+(user.classe||'')+' - '+(user.filiere||'')+'\nMon WhatsApp : '+user.wa+'\n\nJe veux acheter :\n- Article : '+pr.t+'\n- Prix : '+pr.p+' FCFA\n- Quantité : '+q+'\n- Total : '+(pr.p*q)+' FCFA\n\nC\'est encore disponible ? Merci !';
+ let msg='Bonjour '+pr.vendeur+' ❤️\n\nJe suis '+user.nom+'\nJe suis en '+ (user.classe||'') + ' - ' + (user.filiere||'') + '\nMon WhatsApp : '+user.wa+'\n\nJe veux acheter :\n- Article : '+pr.t+'\n- Prix : '+pr.p+' FCFA\n- Quantité : '+q+'\n- Total : '+(pr.p*q)+' FCFA\n\nC\'est encore disponible ? Merci !';
  let waClean=cleanWa(pr.wa);
  window.open('https://wa.me/'+waClean+'?text='+encodeURIComponent(msg),'_blank');
 }
@@ -285,7 +285,11 @@ function toggleDispo(i){if(!user || user.wa!==produits[i].wa){alert('Seul le ven
 if(user){document.getElementById('welcome').style.display='none';showProfil(user)}
 majVisibilite();
 afficher();
-function voirPlusTypes(){let d=document.getElementById('plusTypes');let b=document.getElementById('btnPlusTypes');if(d.style.display==='none'){d.style.display='block';b.innerText='Voir moins ▲';}else{d.style.display='none';b.innerText='Voir plus ▼';}}
+function voirPlusTypes(){
+  let d = document.getElementById('plusTypes');
+  let b = document.getElementById('btnPlusTypes');
+  if(d.style.display === 'none'){ d.style.display = 'block'; b.innerText = 'Voir moins ▲'; } else { d.style.display = 'none'; b.innerText = 'Voir plus ▼'; }
+}
 </script>
 </body>
 </html>
